@@ -1,29 +1,25 @@
 from alpine:3.15
 
-RUN cd ~ 
+RUN mkdir -p /var/app/tools
 
-# linux build libraries for alpine https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-RUN apk add --no-cache git bash build-base libffi-dev openssl-dev bzip2-dev zlib-dev readline-dev sqlite-dev linux-headers
+ADD ./scripts /var/app/tools
 
-ENV PYENV_VER v2.2.4
+WORKDIR /var/app/tools/installers
+RUN ./builddeps.sh
 
-RUN git clone https://github.com/pyenv/pyenv.git --branch $PYENV_VER --depth 1 ~/.pyenv 
-RUN cd ~/.pyenv && src/configure && make -C src 
-RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile \
-    && echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile \
-    && echo 'eval "$(pyenv init --path)"' >> ~/.profile \
-    && source ~/.profile
+ARG INCLUDE_PYENV=
+ARG PYENV_VER=v2.2.4
+ARG PYTHON_VER=3.10.2
 
-ENV PYTHON_VER 3.10.2
+WORKDIR /var/app/tools/installers
+RUN INCLUDE_PYENV=${INCLUDE_PYENV} PYENV_VER=$PYENV_VER PYTHON_VER=$PYTHON_VER ./pyenv.sh
 
-RUN source ~/.profile && pyenv install $PYTHON_VER
+ARG INCLUDE_NVM=
+ARG NVM_VER=v0.39.1
+ARG NODE_VER=lts/gallium
 
-# linux build libraries for node
-RUN apk add -U curl bash ca-certificates openssl ncurses coreutils make gcc g++ libgcc linux-headers grep util-linux binutils findutils
-
-ENV NVM_VER v0.39.1
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VER/install.sh | bash
-
+WORKDIR /var/app/tools/installers
+RUN INCLUDE_NVM=$INCLUDE_NVM PYENV_VER=$PYENV_VER PYTHON_VER=$PYTHON_VER NVM_VER=$NVM_VER NODE_VER=$NODE_VER ./nvm.sh
 
 ENV ENV="/root/.profile"
 
