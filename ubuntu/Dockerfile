@@ -1,5 +1,8 @@
 FROM ubuntu:latest
 
+USER root:root
+SHELL ["/usr/bin/bash", "-c"]
+
 RUN apt-get update
 RUN apt-get upgrade -y
 
@@ -22,11 +25,13 @@ RUN echo 'eval "$(pyenv init -)"' >> $HOME/.profile
 
 # install nvm
 RUN apt-get install -y wget
-RUN sh -cl "wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+RUN sh -cl "pyenv install 3.10.2 && pyenv global 3.10.2"
+
+RUN sh -cl ". $HOME/.nvm/nvm.sh && nvm install lts/gallium"
 
 # setup shell env
-ENV ENV=$HOME/.profile
 WORKDIR $HOME
-SHELL ["/usr/bin/bash", "-c"]
 CMD ["/usr/bin/bash", "-l"]
 
