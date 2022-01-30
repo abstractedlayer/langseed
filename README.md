@@ -10,4 +10,24 @@ The second layer of options allows you to pre-install a selected language versio
 
 After that, code crazy, code nuts
 
+## Installers
+[pyenv](https://github.com/pyenv/pyenv)
+[nvm](https://github.com/nvm-sh/nvm)
+[rbenv](https://github.com/rbenv/rbenv)
+
+## Docker Args
+| Build Arg      | Description                                                       |
+|----------------|-------------------------------------------------------------------|
+| INCLUDE_PYENV= | If non-zero in length, will install pyenv                         |
+| PYENV_VER=     | Version of pyenv to install - Dockerfile specifies a default      |
+| PYTHON_VER=    | If set, will install a default version of python                  |
+|----------------|-------------------------------------------------------------------|
+| INCLUDE_NVM=   | If non-zero in length, will install nvm                           |
+| NVM_VER=       | Version of nvm to install - Dockerfile specifies a default        |
+| NODE_VER=      | If set, will install a default version of node                    |
+|----------------|-------------------------------------------------------------------|
+| INCLUDE_RBENV= | If non-zero in length, will install rbenv                         |
+| RBENV_VER=     | Version of rbenv to install - Dockerfile specifies a default      |
+| RB_BUILD_VER=  | Version of ruby-build to install - Dockerfile specifies a default |
+|----------------|-------------------------------------------------------------------|
 
