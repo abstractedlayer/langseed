@@ -30,3 +30,19 @@ apk add --no-cache \
   binutils \
   findutils
 
+# ruby build libraries for alpine
+apk add --no-cache \
+    bash \
+    git \
+    wget \
+    curl \
+    vim \
+    build-base \
+    readline-dev \
+    openssl-dev \
+    zlib-dev \
+    linux-headers \
+    imagemagick-dev 
+#    libffi-dev 
+
+

@@ -2,7 +2,7 @@
 
 if [[ -n "$INCLUDE_NVM" && -n "$NVM_VER" ]]
 then
-  if [[ -z "$PYENV_VER" || -z "$PYTHON_VER" ]]
+  if [[ -n "$NODE_VER" && [[ -z "$PYENV_VER" || -z "$PYTHON_VER" ]] ]]
   then
     echo "Cannot install NVM without python already installed (PYENV_VER: $PYENV_VER, PYTHON_VER: $PYTHON_VER)"
     exit 1
@@ -18,7 +18,6 @@ then
   else
     echo "Skipping installation of default node version"
   fi
-
 else
   echo "NVM install called but being skipped (INCLUDE_NVM: $INCLUDE_NVM, NVM_VER: $NVM_VER, PYTHON_VER: $PYTHON_VER)"
 fi
